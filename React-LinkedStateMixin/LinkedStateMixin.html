@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Linked State Mixin</title>
+</head>
+<body>
+	<div id='content' style='font-family:Arial,sans-serif; font-size:32px'>
+	</div>
+	<script src="lib/React-with-addons.js"></script>
+	<script src="lib/React-Dom.js"></script>
+	<script src='lib/browser.js'></script>
+	<script type="text/babel">
+
+		var LinkedChild = React.createClass({
+			render: function(){
+				return(
+					<div>
+						<input type="text" valueLink={this.props.myLinkedState} />
+					</div>
+				);
+			},
+		});
+
+		var LinkedStateEg = React.createClass({
+			mixins: [React.addons.LinkedStateMixin],
+
+			getInitialState: function(){
+				return{
+					stateToLink: "Start Typing",
+				}
+			},
+
+			render: function(){
+				return(
+					<div className='linkedStateEg'>
+						<LinkedChild myLinkedState={this.linkState('stateToLink')} />
+						<div>
+							<h1>{this.state.stateToLink}</h1>
+						</div>
+					</div>
+				);
+			},
+		});
+		ReactDOM.render(
+			<LinkedStateEg />,
+			document.getElementById('content')
+		);
+	</script>
+</body>
+</html>

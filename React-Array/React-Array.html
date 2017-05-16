@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>React Array</title>
+</head>
+<body>
+	<div id='content' style='font-family:Arial,snas-serif; font-size:20;'>
+	</div>
+	<script src="lib/react.js"></script>
+	<script src="lib/react-dom.js"></script>
+	<script src="lib/browser.js"></script>
+	<script type="text/babel">
+		var MyListItem = React.createClass({
+			render: function(){
+				return(
+					<div className='myListItem'>
+					{this.props.key}. {this.props.fruit}
+					</div>
+				);
+			},
+		});
+		var Mapper = React.createClass({
+			getInitialState: function(){
+				return {
+					list:['apples','oranges', 'bananas', 'pears'],
+				};
+			},
+			render: function(){
+				return(
+					<div className='mapper'>
+						My Shopping list(it never changes!):
+						<ol>
+							{
+								this.state.list.map((function(fruit, idx){
+									return <MyListItem key={idx} fruit={fruit} />
+								}).bind(this))
+							}
+						</ol>
+					</div>
+				);
+			},
+		});
+		ReactDOM.render(
+			<Mapper />,
+			document.getElementById('content')
+		);
+	</script>
+</body>
+</html>

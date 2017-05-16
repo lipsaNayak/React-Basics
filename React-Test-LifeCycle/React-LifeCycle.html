@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>React Array</title>
+</head>
+<body>
+	<div id='content' style='font-family:Arial,snas-serif; font-size:20;'>
+	</div>
+	<script src="lib/react.js"></script>
+	<script src="lib/react-dom.js"></script>
+	<script src="lib/browser.js"></script>
+	<script type="text/babel">
+		var ChildComponent = React.createClass({
+			getInitialState: function(){
+				return{	
+					x: 100
+				};
+			},
+			componentWillMount: function(){
+				console.log('Inside componentWillMount of ChildComponent');
+			},
+			componentDidMount: function(){
+				console.log('Inside componentDidMount of ChildComponent(this is called before the parent components copmponentDidMount)');
+			},
+			componentWillReceiveProps: function(nextProps){
+				console.log('Inside componentWillReceiveProps of child Component', this.props, 'and the next props is ', nextProps);
+			},
+			componentWillUpdate: function(newProps){
+				console.log('In componentWillUpdate of Child Component');
+			},
+			componentDidUpdate: function(prevProps){
+				console.log('In componentDidUpdate of Child Component ', prevProps.myNum);
+				// this.setState({x: 10});
+			},
+			componentWillUnmount(){
+				console.log('In child component componentWillUnmount');
+			},
+			shouldComponentUpdate: function(newProps, state){
+				console.log('Inside shouldComponentUpdate of Child component');
+				if(newProps.myNum === 4 ){
+					// this.setState({x: 49});
+					return false;
+				}
+				else{
+					return true;
+				}
+			},
+			render: function(){
+				return(
+					<div>In the Child Component {this.props.myNum} and {this.state.x}</div>
+				);
+			},
+		});
+		var AComponent = React.createClass({
+
+			getInitialState: function(){
+				return{
+					myState: 0,
+				};
+			},
+
+			handleClick: function(){
+				this.setState({myState: this.state.myState + 1});
+			},
+			componentWillMount: function(){
+				console.log('Inside componentWillMount of Parent Componnet(This is not called again on setState i:e called only once)');
+			},
+			componentDidMount: function(){
+				console.log('Inside componnetDidMount of Parent Component');
+			},
+			render: function(){
+				console.log('Inside render');
+				return(
+					<div className='aComponent'>
+						<span onClick={this.handleClick}>In the Parent Component</span>
+						<ChildComponent myNum={this.state.myState}/>
+					</div>
+				);
+			},
+		});
+		ReactDOM.render(
+			<AComponent />,
+			document.getElementById('content')
+		);
+	</script>
+</body>
+</html>
